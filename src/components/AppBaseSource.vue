@@ -1,9 +1,6 @@
 <template>
   <div id="app">
     <textarea id="abc-source"></textarea>
-    <audio id="sound-file-click" preload="auto">
-      <source src="static/sound/click/nc112322.wav" type="audio/wav">
-    </audio>
     <audio id="sound-file-button" preload="auto">
       <source src="static/sound/button/nc167288.mp3" type="audio/mp3">
     </audio>
@@ -23,6 +20,7 @@
       <div id="midi-source" class="midi"></div>
       <div id="midi-download-source"></div>
     </div>
+    <hr>
   </div>
 </template>
 
@@ -79,9 +77,7 @@ export default {
       refdata: [],
       allrefdata: [],
       refloc: 0,
-      sample_n: 150,
-      lastelem: "",
-      lastscore: ""
+      sample_n: 150
     };
   },
   watch: {
@@ -120,49 +116,9 @@ export default {
       this.colorRange(lastRange, "#000000"); // Set the old note back to black.
       this.colorRange(currentRange, "#3D9AFC"); // Set the currently sounding note to blue.
     },
-    async selectionCallback(abcelem) {
-      this.soundClick();
-      // const val = await this.elemContinuty(abcelem);
-      // console.log(val);
-      // if (val > 0) {
-      //   this.soundClick();
-      //   console.log(val);
-      //   const data = document.getElementById("abc-source").value;
-      //   const targ_data = data.slice(abcelem.startChar, abcelem.endChar);
-      //   const targ_info = await this.get_info(data, abcelem.startChar);
-      // const phrase_data = document.getElementById("abc-phrase").value;
-      // const phrase_info = await this.get_info(
-      //   phrase_data,
-      //   phrase_data.length
-      // );
-      // await this.phrase_set_info(targ_info, phrase_info);
-      // this.editingdata =
-      //   document.getElementById("abc-phrase").value + targ_data;
-      // document.getElementById("editing-alert").innerHTML = "<em>Success</em>";
-      // } else {
-      //   this.soundFailed();
-      // document.getElementById("editing-alert").innerHTML =
-      //   "Failed<br>Please select a consecutive note.";
-      // }
+    selectionCallback(abcelem) {
+      this.$emit("update-element", abcelem);
     },
-    // get_info(abcdata, start) {
-    //   function setting(d) {
-    //     return d.slice(0, d.search(/[\n\]]/));
-    //   }
-    //   let res = new Map();
-    //   const data_slice = abcdata.slice(0, start);
-    //   const mes_slice = data_slice.slice(data_slice.lastIndexOf("M:"));
-    //   res.set("M", setting(mes_slice));
-    //   const len_slice = data_slice.slice(data_slice.lastIndexOf("L:"));
-    //   res.set("L", setting(len_slice));
-    //   const tempo_slice = data_slice.slice(data_slice.lastIndexOf("Q:"));
-    //   res.set("Q", setting(tempo_slice));
-    //   const chord_slice = data_slice.slice(data_slice.lastIndexOf("K:"));
-    //   res.set("K", setting(chord_slice));
-    //   const title_slice = data_slice.slice(data_slice.lastIndexOf("T:"));
-    //   res.set("T", setting(title_slice));
-    //   return res;
-    // },
     leftbutton() {
       this.soundButton();
       if (this.refloc === 0) {
@@ -181,45 +137,6 @@ export default {
       }
       this.abcdata = this.refdata[this.refloc];
     },
-    // async elemContinuty(elem) {
-    //   const func = () => {
-    //     console.log(this.abcdata);
-    //     console.log(this.lastelem);
-    //     console.log(elem.startChar);
-    //     const str = document
-    //       .getElementById("abc-source")
-    //       .value.slice(this.lastelem, elem.startChar);
-    //     console.log(str);
-    //     console.log(str.slice(str.search("]") + 1, str.length));
-    //     return str.slice(str.search("]") + 1, str.length).search(/([A-Za-z])/);
-    //   };
-    //   if (
-    //     this.lastelem !== "" &&
-    //     (this.lastscore !== this.refloc || this.lastelem > elem.startChar)
-    //   ) {
-    //     return -1;
-    //   } else if (this.lastelem !== "") {
-    //     let res = await func();
-    //     if (res === -1) {
-    //       this.lastelem = elem.endChar;
-    //       this.lastscore = this.refloc;
-    //     }
-    //     if (res === 0) res++;
-    //     return res * -1;
-    //   } else {
-    //     this.lastelem = elem.endChar;
-    //     this.lastscore = this.refloc;
-    //     return 1;
-    //   }
-    // },
-    soundClick() {
-      const id = "sound-file-click";
-      if (typeof document.getElementById(id).currentTime != "undefined") {
-        document.getElementById(id).currentTime = 0;
-      }
-      document.getElementById(id).play();
-    },
-
     soundButton() {
       const id = "sound-file-button";
       if (typeof document.getElementById(id).currentTime != "undefined") {
@@ -227,13 +144,6 @@ export default {
       }
       document.getElementById(id).play();
     }
-    // soundFailed() {
-    //   const id = "sound-file-failed";
-    //   if (typeof document.getElementById(id).currentTime != "undefined") {
-    //     document.getElementById(id).currentTime = 0;
-    //   }
-    //   document.getElementById(id).play();
-    // }
   }
 };
 </script>

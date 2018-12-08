@@ -2,9 +2,7 @@
   <div id="app">
     <h1>simple chat</h1>Phrase
     <br>
-    <input type="text">
-    <input type="button" value="send">
-    <br>
+
     <hr>
     <!-- <div id="messages"/> -->
   </div>
@@ -17,7 +15,13 @@ export default {
     return {
       msg: "Welcome to Your Vue.js App"
     };
-  }
+  },
+  watch: {
+    abcElement() {
+      console.log(this.abcElement.startChar);
+    }
+  },
+  props: ["abcElement"]
 };
 </script>
 

@@ -5,8 +5,9 @@
       <br>Please select consecutive notes on scores to make a new score.
       <br>Push "Add" button to add "Phrase Editor" to your "Music".
     </div>
-    <app-base-source/>
-    <app-base-phrase/>
+    <hr>
+    <app-base-source v-on:update-element="updateElement"/>
+    <app-base-phrase v-bind:abc-element="element"/>
     <app-base-creation/>
   </div>
 </template>
@@ -32,10 +33,21 @@ Vue.component("font-awesome-icon", FontAwesomeIcon);
 
 export default {
   name: "AppBase",
+  data() {
+    return {
+      element: ""
+    };
+  },
   components: {
     AppBaseSource: AppBaseSource,
     AppBasePhrase: AppBasePhrase,
     AppBaseCreation: AppBaseCreation
+  },
+  methods: {
+    updateElement(el) {
+      // console.log(el);
+      this.element = el;
+    }
   }
 };
 </script>
@@ -70,6 +82,7 @@ export default {
   box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.4);
 }
 .midi {
+  background-position: top;
   width: auto;
 }
 .score-title {

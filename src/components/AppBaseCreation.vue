@@ -5,8 +5,8 @@
     <input type="text" id="msg">
     <input type="button" value="send" v-on:click="send">
     <br>
-    <!-- <hr> -->
-    <!-- <div id="messages"/> -->
+    <hr>
+    <div id="messages"/>
   </div>
 </template>
 
@@ -21,7 +21,6 @@ ws.onmessage = function(event) {
       .replace(/,/g, "</div><div>") +
     "</div>";
   console.log(
-    JSON.parse(event.data).toString(),
     JSON.parse(event.data)
       .toString()
       .replace(/,/g, "\n")

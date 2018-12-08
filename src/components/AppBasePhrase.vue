@@ -2,8 +2,8 @@
   <div id="app">
     <h1>simple chat</h1>Phrase
     <br>
-    <input type="text" id="msg">
-    <input type="button" value="send" v-on:click="send">
+    <input type="text">
+    <input type="button" value="send">
     <br>
     <hr>
     <!-- <div id="messages"/> -->
@@ -17,9 +17,6 @@ export default {
     return {
       msg: "Welcome to Your Vue.js App"
     };
-  },
-  methods: {
-    send() {}
   }
 };
 </script>

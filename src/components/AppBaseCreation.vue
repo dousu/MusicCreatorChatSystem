@@ -1,12 +1,12 @@
 <template>
-  <div>
-    <h1>simple chat</h1>This application is constructed by Vue.js, Webpack, Babel, ws, Node.js, Express
+  <div id="app">
+    <h1>simple chat</h1>Creation
     <br>
     <input type="text" id="msg">
     <input type="button" value="send" v-on:click="send">
     <br>
-    <hr>
-    <div id="messages"/>
+    <!-- <hr> -->
+    <!-- <div id="messages"/> -->
   </div>
 </template>
 
@@ -28,7 +28,7 @@ ws.onmessage = function(event) {
   );
 };
 export default {
-  name: "SimpleChat",
+  name: "AppBaseCreation",
   data() {
     return {
       msg: "Welcome to Your Vue.js App"

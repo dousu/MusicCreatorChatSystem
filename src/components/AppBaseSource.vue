@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    <textarea id="abc-source"></textarea>
     <audio id="sound-file-button" preload="auto">
       <source src="static/sound/button/nc167288.mp3" type="audio/mp3">
     </audio>
@@ -150,10 +149,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
-#abc-source {
-  padding: 6px;
-  display: none;
-}
 .direction {
   width: 49.5%;
   font-size: 150%;

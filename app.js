@@ -20,7 +20,7 @@ wss.on('connection', function (ws) {
     });
     ws.on('message', function (message) {
         messages.push(message);
-        console.log('message:', message);
+        console.log('message:', JSON.stringify(message));
         broadcast(JSON.stringify(messages));
     });
 });

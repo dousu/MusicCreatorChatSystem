@@ -6,15 +6,23 @@
     <div id="main-text">
       <div id="main-title">Music Creator</div>
       <br>Please select the consecutive notes on the score to make a new score.
-      <br>On "Phrase Editor", you can try to play the notes on "Phrase Editor".
-      <br>Add your favorite and perfect phrase to your score.
-      <br>Let's make your music connected phrases from the favorite scores.
+      <br>On "Phrase Editor", you can play the selected notes.
+      <br>Add your favorite and perfect phrase to "Your Music".
+      <br>Let's make your music which is concatination of phrases got out from the favorite scores.
     </div>
     <hr>
-    <app-base-source v-on:update-element="updateElement"/>
-    <app-base-phrase v-on:update-phrase="updatePhrase" v-bind:abc-element="element"/>
-    <app-base-creation v-on:update-creation="updateCreation" v-bind:edit-phrase="phrase"/>
-    <app-base-chat v-bind:send-creation="creation"/>
+    <div class="frame-container">
+      <app-base-source v-on:update-element="updateElement"/>
+    </div>
+    <div class="frame-container">
+      <app-base-phrase v-on:update-phrase="updatePhrase" v-bind:abc-element="element"/>
+    </div>
+    <div class="frame-container">
+      <app-base-creation v-on:update-creation="updateCreation" v-bind:edit-phrase="phrase"/>
+    </div>
+    <div class="frame-container">
+      <app-base-chat v-bind:send-creation="creation"/>
+    </div>
   </div>
 </template>
 
@@ -103,7 +111,8 @@ export default {
 .container {
   border: solid 1px #000000;
   width: auto;
-  height: 300px;
+  height: auto;
+  margin: 2mm;
   overflow: auto;
   box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.4);
 }
@@ -133,5 +142,12 @@ export default {
 #abc-creation {
   padding: 6px;
   display: none;
+}
+.frame-container {
+  display: inline-block;
+  width: 49.5%;
+  overflow: auto;
+  border: solid 1px #000000;
+  height: 450px;
 }
 </style>

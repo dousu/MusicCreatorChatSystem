@@ -51,7 +51,7 @@ export default {
   },
   watch: {
     async abcElement() {
-      console.log(this.abcElement.startChar);
+      console.log(this.abcElement);
       const val = await this.elemContinuty(this.abcElement);
       if (val > 0) {
         this.soundClick();
@@ -88,6 +88,7 @@ export default {
         midi_id: "midi-phrase",
         midi_download_id: "midi-download-phrase",
         abcjsParams: {
+          responsive: "resize",
           generateDownload: true,
           midiListener: this.listener,
           animate: {
@@ -99,17 +100,29 @@ export default {
   },
   methods: {
     async elemContinuty(elem) {
+      console.log(
+        elem.type,
+        elem.el_type,
+        elem.type != "specified" && elem.el_type == "note"
+      );
       const func = () => {
-        console.log(this.abcdata);
         console.log(this.lastelem);
         console.log(elem.startChar);
-        const str = document
+        let str = document
           .getElementById("abc-source")
           .value.slice(this.lastelem, elem.startChar);
         console.log(str);
-        console.log(str.slice(str.search("]") + 1, str.length));
+        str = str.replace(/!.*?!|\".*?\"|\[.*?\]/g, "");
         return str.slice(str.search("]") + 1, str.length).search(/([A-Za-z])/);
       };
+      if (
+        !(
+          elem.type != "specified" &&
+          (elem.el_type == "note" || elem.el_type == "bar")
+        )
+      ) {
+        return -1;
+      }
       if (
         this.lastelem !== "" &&
         (this.lastscore !== this.refloc || this.lastelem > elem.startChar)
@@ -236,14 +249,14 @@ export default {
 <style>
 .note {
   border: 1px solid #e9ef96;
-  height: 100px;
-  width: 400px;
+  height: 30%;
+  width: 30%;
   color: red;
   background-color: #fbf4b8;
   margin: 3px;
   box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
 }
 #editing {
-  margin: 30px;
+  margin: 1%;
 }
 </style>

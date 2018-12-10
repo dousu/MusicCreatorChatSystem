@@ -19,7 +19,6 @@
       <div id="midi-source" class="midi"></div>
       <div id="midi-download-source"></div>
     </div>
-    <hr>
   </div>
 </template>
 
@@ -89,6 +88,7 @@ export default {
         midi_id: "midi-source",
         midi_download_id: "midi-download-source",
         abcjsParams: {
+          responsive: "resize",
           generateDownload: true,
           clickListener: this.selectionCallback,
           midiListener: this.listener,
@@ -154,6 +154,6 @@ export default {
   font-size: 150%;
 }
 #refer-abc {
-  margin: 30px;
+  margin: 1%;
 }
 </style>

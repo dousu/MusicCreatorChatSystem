@@ -1,9 +1,11 @@
 <template>
   <div id="app">
     <div id="room-textarea"></div>
-    <div class="score-title">History</div>
-    <br>
-    <div id="score-list"></div>
+    <div id="history">
+      <div class="score-title">History</div>
+      <br>
+      <div id="score-list"></div>
+    </div>
   </div>
 </template>
 
@@ -12,20 +14,22 @@ import "abcjs/abcjs-midi.css";
 import abcjs from "abcjs/midi";
 export default {
   mounted: async function() {
-    var add_score_view = scoreText => {
+    var add_score_view = (title, scoreText) => {
       const id_str = "history" + this.record_num.toString();
       this.record_num++;
       document.getElementById("room-textarea").innerHTML +=
         '<textarea id="' + id_str + '" class="dummy-textarea"></textarea>';
       document.getElementById(id_str).innerHTML = scoreText;
       document.getElementById("score-list").innerHTML +=
-        '<div class="container"><div id="paper-' +
+        '<div class="mini-container"><div class="history-element"><div class="history-title">' +
+        title +
+        '</div><div class="container"><div id="paper-' +
         id_str +
         '"></div></div><div id="midi-' +
         id_str +
         '" class="midi"></div><div id="midi-download-' +
         id_str +
-        '"></div>';
+        '"></div></div></div>';
       new abcjs.Editor(id_str, {
         paper_id: "paper-" + id_str,
         staffwidth: "auto",
@@ -33,6 +37,7 @@ export default {
         midi_id: "midi-" + id_str,
         midi_download_id: "midi-download-" + id_str,
         abcjsParams: {
+          responsive: "resize",
           generateDownload: true,
           midiListener: this.listener,
           animate: {
@@ -46,7 +51,7 @@ export default {
       document.getElementById("room-textarea").innerHTML = "";
       document.getElementById("score-list").innerHTML = "";
       scores.forEach(function(value) {
-        add_score_view(value);
+        add_score_view(value[0], value[1]);
       });
     };
     this.host = window.document.location.host.replace(/:.*/, "");
@@ -69,7 +74,26 @@ export default {
   watch: {
     sendCreation() {
       //this.sendCreation
-      this.ws.send(this.sendCreation);
+      this.ws.send(this.sendCreation.replace(/T:.*\n/g, ""));
+    }
+  },
+  methods: {
+    listener(midiControl, progress) {
+      this.progress = progress;
+    },
+    colorRange(range, color) {
+      if (range && range.elements) {
+        range.elements.forEach(function(set) {
+          set.forEach(function(item) {
+            item.setAttribute("fill", color);
+          });
+        });
+      }
+    },
+    animate(lastRange, currentRange) {
+      // This provides the actual visual note being played. It can be used to create the "bouncing ball" effect.
+      this.colorRange(lastRange, "#000000"); // Set the old note back to black.
+      this.colorRange(currentRange, "#3D9AFC"); // Set the currently sounding note to blue.
     }
   },
   props: ["sendCreation"]
@@ -80,5 +104,25 @@ export default {
 <style>
 .dummy-textarea {
   display: none;
+}
+.mini-container {
+  margin: 0.1%;
+  display: inline-block;
+  border: solid 1px #000000;
+  width: 49%;
+  height: 150px;
+  overflow: auto;
+  float: left;
+}
+#history {
+  margin: 1%;
+}
+.history-element {
+  margin: 1%;
+}
+.history-title {
+  margin-top: 2.2%;
+  font-size: 90%;
+  font-weight: bold;
 }
 </style>

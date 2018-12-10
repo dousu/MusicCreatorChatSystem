@@ -22,7 +22,7 @@
         <font-awesome-icon icon="undo"/>undo
       </button>
       <button v-on:click="comp_creation" id="button_comp">
-        <font-awesome-icon icon="share-square"/>complete
+        <font-awesome-icon icon="share-square"/>send
       </button>
       <div id="midi-creation" class="midi"></div>
       <div id="midi-download-creation"></div>
@@ -52,6 +52,7 @@ export default {
         midi_id: "midi-creation",
         midi_download_id: "midi-download-creation",
         abcjsParams: {
+          responsive: "resize",
           generateDownload: true,
           midiListener: this.listener,
           animate: {
@@ -182,7 +183,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
 #creation {
-  margin: 30px;
+  margin: 1%;
 }
 #button_comp {
   width: 100%;

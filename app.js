@@ -2,6 +2,7 @@ const http = require('http');
 const express = require('express');
 const app = express();
 const WebSocketServer = require('ws').Server;
+const fs = require('fs');
 
 app.use('/dist', express.static(__dirname + '/static'));
 app.use(express.static(__dirname + '/dist'));
@@ -58,6 +59,8 @@ wss.on('connection', function (ws, req) {
                 asker = "";
             }
             broadcast(JSON.stringify(messages));
+        } else if (message == "_log") {
+
         } else if (asker != sender) {
             var str = "";
             if (!state) {

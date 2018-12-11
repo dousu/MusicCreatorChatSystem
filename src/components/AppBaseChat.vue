@@ -120,6 +120,9 @@ export default {
     trash_chat() {
       //this.message_value
       this.ws.send("_cancel");
+    },
+    log_chat() {
+      this.ws.send("_log");
     }
   },
   props: ["sendCreation"]

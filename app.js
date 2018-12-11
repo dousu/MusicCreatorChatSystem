@@ -3,6 +3,7 @@ const express = require('express');
 const app = express();
 const WebSocketServer = require('ws').Server;
 const fs = require('fs');
+const glob = require('glob');
 
 app.use('/dist', express.static(__dirname + '/static'));
 app.use(express.static(__dirname + '/dist'));
@@ -31,9 +32,9 @@ wss.on('connection', function (ws, req) {
         const sender = ws._socket._peername.address + ":" + ws._socket._peername.port;
         console.log(sender);
         // console.log('from:', req.connection.remoteAddress, req.connection.remotePort);
-        if (message == "") {
+        if (message === "") {
             broadcast(JSON.stringify(messages));
-        } else if (message == "_cancel") {
+        } else if (message === "_cancel") {
             //look for the last message from sender
             var loc = messages.length;
             for (var i = messages.length - 1; i >= 0; i--) {
@@ -59,7 +60,7 @@ wss.on('connection', function (ws, req) {
                 asker = "";
             }
             broadcast(JSON.stringify(messages));
-        } else if (message == "_log") {
+        } else if (message === "_log") {
             console.log("Logging");
             var date = new Date();
             var date_info = [date.getFullYear(), date.getMonth() + 1, date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds(), date.getMilliseconds()];
@@ -68,10 +69,15 @@ wss.on('connection', function (ws, req) {
             fs.mkdirSync(dir_str);
             messages.forEach((m, i) => {
                 if (i % 2 === 0) {
-                    fs.writeFileSync(dir_str + '/log_ask' + ((i + 2) / 2).toString() + '.abc', JSON.stringify(m));
+                    fs.writeFileSync(dir_str + '/log_ask' + ((i + 2) / 2).toString() + '.abc', JSON.stringify(m[1]));
                 } else {
-                    fs.writeFileSync(dir_str + '/log_res' + ((i + 1) / 2).toString() + '.abc', JSON.stringify(m));
+                    fs.writeFileSync(dir_str + '/log_res' + ((i + 1) / 2).toString() + '.abc', JSON.stringify(m[1]));
                 }
+            });
+        } else if (message === "_load") {
+            glob('./reference_data/*.abc', (_, files) => {
+                console.log(files);
+                broadcast("_ref" + JSON.stringify(files.map((file) => fs.readFileSync(file, 'utf-8'))));
             });
         } else if (asker != sender) {
             var str = "";

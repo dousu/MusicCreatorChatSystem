@@ -21,10 +21,17 @@
       <app-base-creation v-on:update-creation="updateCreation" v-bind:edit-phrase="phrase"/>
     </div>
     <div class="frame-container">
-      <app-base-chat v-bind:send-creation="creation" ref="chat"/>
+      <app-base-chat
+        v-on:update-reference="updateReference"
+        v-bind:send-creation="creation"
+        ref="chat"
+      />
     </div>
     <button v-on:click="log_base" class="button_comp">
       <font-awesome-icon icon="check"/>logging
+    </button>
+    <button v-on:click="load_base" class="button_comp">
+      <font-awesome-icon icon="comments"/>load references
     </button>
   </div>
 </template>
@@ -45,7 +52,8 @@ import {
   faShareSquare,
   faRetweet,
   faTrash,
-  faCheck
+  faCheck,
+  faComments
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
@@ -58,7 +66,8 @@ library.add(
   faShareSquare,
   faRetweet,
   faTrash,
-  faCheck
+  faCheck,
+  faComments
 );
 
 Vue.component("font-awesome-icon", FontAwesomeIcon);
@@ -69,7 +78,8 @@ export default {
     return {
       element: "",
       phrase: "",
-      creation: ""
+      creation: "",
+      reference: ""
     };
   },
   components: {
@@ -77,6 +87,11 @@ export default {
     AppBasePhrase: AppBasePhrase,
     AppBaseCreation: AppBaseCreation,
     AppBaseChat: AppBaseChat
+  },
+  watch: {
+    reference() {
+      console.log(this.reference);
+    }
   },
   methods: {
     updateElement(el) {
@@ -91,8 +106,15 @@ export default {
       // console.log(el);
       this.creation = el;
     },
+    updateReference(el) {
+      // console.log(el);
+      this.reference = el;
+    },
     log_base() {
       this.$refs.chat.log_chat();
+    },
+    load_base() {
+      this.$refs.chat.load_chat();
     }
   }
 };

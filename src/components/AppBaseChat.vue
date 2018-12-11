@@ -60,22 +60,29 @@ export default {
         add_score_view(value[0], value[1]);
       });
     };
+    var add_reference_list = scores => {
+      this.$emit("update-reference", scores);
+    };
     this.host = window.document.location.host.replace(/:.*/, "");
     this.ws = new WebSocket("ws://" + this.host + ":3000");
     this.ws.onmessage = function(event) {
-      this.message_value = JSON.parse(event.data);
-      console.log(this.message_value);
-      add_score_view_list(this.message_value);
+      if (event.data.search("_ref") === 0) {
+        add_reference_list(JSON.parse(event.data.slice(4)));
+      } else {
+        this.message_value = JSON.parse(event.data);
+        console.log(this.message_value);
+        add_score_view_list(this.message_value);
+      }
     };
     this.ws.onclose = function(event) {
       console.log("close:", event.code, event.reason);
-      this.close_msg = "WebSocket does not work.";
+      this.close_msg = "WebSocket is not working.";
       document.getElementById("room-textarea").innerHTML = "";
       document.getElementById("score-list").innerHTML = this.close_msg;
     };
     this.ws.onclose = function(event) {
       console.log("error:", event.error);
-      this.close_msg = "WebSocket does not work.";
+      this.close_msg = "WebSocket is not working.";
       document.getElementById("room-textarea").innerHTML = "";
       document.getElementById("score-list").innerHTML = this.close_msg;
     };
@@ -123,6 +130,9 @@ export default {
     },
     log_chat() {
       this.ws.send("_log");
+    },
+    load_chat() {
+      this.ws.send("_load");
     }
   },
   props: ["sendCreation"]

@@ -152,7 +152,7 @@ export default {
     comp_creation() {
       this.soundAdd();
       this.$emit("update-creation", this.creationdata);
-      this.creationdata = "";
+      // this.creationdata = "";
     },
     soundClear() {
       const id = "sound-file-clear";

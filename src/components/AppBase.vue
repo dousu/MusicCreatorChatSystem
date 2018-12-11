@@ -8,7 +8,7 @@
       <br>Please select the consecutive notes on the score to make a new score.
       <br>On "Phrase Editor", you can play the selected notes.
       <br>Add your favorite and perfect phrase to "Your Music".
-      <br>Let's make your music which is concatination of phrases got out from the favorite scores.
+      <br>Let's make your music which is the concatenation of phrases got out from the popular pieces of music.
     </div>
     <hr>
     <div class="frame-container">
@@ -39,7 +39,9 @@ import {
   faMinus,
   faUndo,
   faChevronLeft,
-  faShareSquare
+  faShareSquare,
+  faRetweet,
+  faTrash
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
@@ -49,7 +51,9 @@ library.add(
   faUndo,
   faChevronRight,
   faChevronLeft,
-  faShareSquare
+  faShareSquare,
+  faRetweet,
+  faTrash
 );
 
 Vue.component("font-awesome-icon", FontAwesomeIcon);

@@ -4,6 +4,12 @@
     <div id="history">
       <div class="score-title">History</div>
       <br>
+      <button v-on:click="reload_chat" class="modifier">
+        <font-awesome-icon icon="retweet"/>reload
+      </button>
+      <button v-on:click="trash_chat" class="modifier">
+        <font-awesome-icon icon="trash"/>cancel
+      </button>
       <div id="score-list"></div>
     </div>
   </div>
@@ -61,6 +67,18 @@ export default {
       console.log(this.message_value);
       add_score_view_list(this.message_value);
     };
+    this.ws.onclose = function(event) {
+      console.log("close:", event.code, event.reason);
+      this.close_msg = "WebSocket does not work.";
+      document.getElementById("room-textarea").innerHTML = "";
+      document.getElementById("score-list").innerHTML = this.close_msg;
+    };
+    this.ws.onclose = function(event) {
+      console.log("error:", event.error);
+      this.close_msg = "WebSocket does not work.";
+      document.getElementById("room-textarea").innerHTML = "";
+      document.getElementById("score-list").innerHTML = this.close_msg;
+    };
   },
   name: "AppBaseChat",
   data() {
@@ -68,7 +86,8 @@ export default {
       record_num: 1,
       message_value: "",
       host: "",
-      ws: null
+      ws: null,
+      close_msg: ""
     };
   },
   watch: {
@@ -94,6 +113,13 @@ export default {
       // This provides the actual visual note being played. It can be used to create the "bouncing ball" effect.
       this.colorRange(lastRange, "#000000"); // Set the old note back to black.
       this.colorRange(currentRange, "#3D9AFC"); // Set the currently sounding note to blue.
+    },
+    reload_chat() {
+      this.ws.send("");
+    },
+    trash_chat() {
+      //this.message_value
+      this.ws.send("_cancel");
     }
   },
   props: ["sendCreation"]
@@ -110,7 +136,7 @@ export default {
   display: inline-block;
   border: solid 1px #000000;
   width: 49%;
-  height: 150px;
+  height: 170px;
   overflow: auto;
   float: left;
 }
@@ -124,5 +150,9 @@ export default {
   margin-top: 2.2%;
   font-size: 90%;
   font-weight: bold;
+}
+#button_reload {
+  width: 100%;
+  font-size: 150%;
 }
 </style>

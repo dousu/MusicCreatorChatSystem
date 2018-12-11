@@ -21,7 +21,7 @@
       <button v-on:click="undo_creation" class="modifier">
         <font-awesome-icon icon="undo"/>undo
       </button>
-      <button v-on:click="comp_creation" id="button_comp">
+      <button v-on:click="comp_creation" class="button_comp">
         <font-awesome-icon icon="share-square"/>send
       </button>
       <div id="midi-creation" class="midi"></div>
@@ -184,9 +184,5 @@ export default {
 <style>
 #creation {
   margin: 1%;
-}
-#button_comp {
-  width: 100%;
-  font-size: 150%;
 }
 </style>

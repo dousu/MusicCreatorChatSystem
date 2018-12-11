@@ -60,7 +60,19 @@ wss.on('connection', function (ws, req) {
             }
             broadcast(JSON.stringify(messages));
         } else if (message == "_log") {
-
+            console.log("Logging");
+            var date = new Date();
+            var date_info = [date.getFullYear(), date.getMonth() + 1, date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds(), date.getMilliseconds()];
+            var dir_str = "data/" + date_info.join("_");
+            console.log("Write the communication log at ", dir_str);
+            fs.mkdirSync(dir_str);
+            messages.forEach((m, i) => {
+                if (i % 2 === 0) {
+                    fs.writeFileSync(dir_str + '/log_ask' + ((i + 2) / 2).toString() + '.abc', JSON.stringify(m));
+                } else {
+                    fs.writeFileSync(dir_str + '/log_res' + ((i + 1) / 2).toString() + '.abc', JSON.stringify(m));
+                }
+            });
         } else if (asker != sender) {
             var str = "";
             if (!state) {

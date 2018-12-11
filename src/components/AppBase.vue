@@ -21,8 +21,11 @@
       <app-base-creation v-on:update-creation="updateCreation" v-bind:edit-phrase="phrase"/>
     </div>
     <div class="frame-container">
-      <app-base-chat v-bind:send-creation="creation"/>
+      <app-base-chat v-bind:send-creation="creation" ref="chat"/>
     </div>
+    <button v-on:click="log_base" class="button_comp">
+      <font-awesome-icon icon="check"/>logging
+    </button>
   </div>
 </template>
 
@@ -41,7 +44,8 @@ import {
   faChevronLeft,
   faShareSquare,
   faRetweet,
-  faTrash
+  faTrash,
+  faCheck
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
@@ -53,7 +57,8 @@ library.add(
   faChevronLeft,
   faShareSquare,
   faRetweet,
-  faTrash
+  faTrash,
+  faCheck
 );
 
 Vue.component("font-awesome-icon", FontAwesomeIcon);
@@ -85,6 +90,9 @@ export default {
     updateCreation(el) {
       // console.log(el);
       this.creation = el;
+    },
+    log_base() {
+      this.$refs.chat.log_chat();
     }
   }
 };
@@ -153,5 +161,9 @@ export default {
   overflow: auto;
   border: solid 1px #000000;
   height: 450px;
+}
+.button_comp {
+  width: 100%;
+  font-size: 150%;
 }
 </style>

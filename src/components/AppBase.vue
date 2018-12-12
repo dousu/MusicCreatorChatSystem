@@ -3,6 +3,8 @@
     <textarea id="abc-source"></textarea>
     <textarea id="abc-phrase"></textarea>
     <textarea id="abc-creation"></textarea>
+    <div id="room-textarea1"></div>
+    <div id="room-textarea2"></div>
     <div id="main-text">
       <div id="main-title">Music Creator</div>
       <br>Please select the consecutive notes on the score to make a new score.
@@ -33,6 +35,7 @@
     <button v-on:click="load_base" class="button_comp">
       <font-awesome-icon icon="comments"/>load references
     </button>
+    <div id="score-list2"></div>
   </div>
 </template>
 
@@ -56,6 +59,9 @@ import {
   faComments
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+
+import "abcjs/abcjs-midi.css";
+import abcjs from "abcjs/midi";
 
 library.add(
   faPlus,
@@ -91,9 +97,50 @@ export default {
   watch: {
     reference() {
       console.log(this.reference);
+      this.add_score_view_list(this.reference);
     }
   },
   methods: {
+    add_score_view(title, scoreText) {
+      const id_str = "reference" + this.record_num.toString();
+      this.record_num++;
+      document.getElementById("room-textarea2").innerHTML +=
+        '<textarea id="' + id_str + '" class="dummy-textarea"></textarea>';
+      document.getElementById(id_str).innerHTML = scoreText;
+      document.getElementById("score-list2").innerHTML +=
+        '<div class="reference-container"><div class="history-element"><div class="history-title">' +
+        title +
+        '</div><div class="container"><div id="paper-' +
+        id_str +
+        '"></div></div><div id="midi-' +
+        id_str +
+        '" class="midi"></div><div id="midi-download-' +
+        id_str +
+        '"></div></div></div>';
+      new abcjs.Editor(id_str, {
+        paper_id: "paper-" + id_str,
+        staffwidth: "auto",
+        generate_midi: true,
+        midi_id: "midi-" + id_str,
+        midi_download_id: "midi-download-" + id_str,
+        abcjsParams: {
+          responsive: "resize",
+          generateDownload: true,
+          midiListener: this.listener,
+          animate: {
+            listener: this.animate
+          }
+        }
+      });
+    },
+    add_score_view_list(scores) {
+      this.record_num = 1;
+      document.getElementById("room-textarea2").innerHTML = "";
+      document.getElementById("score-list2").innerHTML = "";
+      scores.forEach(value => {
+        this.add_score_view(value[0], value[1]);
+      });
+    },
     updateElement(el) {
       // console.log(el);
       this.element = el;
@@ -187,5 +234,17 @@ export default {
 .button_comp {
   width: 100%;
   font-size: 150%;
+}
+.dummy-textarea {
+  display: none;
+}
+.reference-container {
+  margin: 0.1%;
+  display: inline-block;
+  border: solid 1px #000000;
+  width: 49%;
+  height: 285px;
+  overflow: auto;
+  float: left;
 }
 </style>

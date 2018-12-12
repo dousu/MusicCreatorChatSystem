@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    <div id="room-textarea"></div>
     <div id="history">
       <div class="score-title">History</div>
       <br>
@@ -10,7 +9,7 @@
       <button v-on:click="trash_chat" class="modifier">
         <font-awesome-icon icon="trash"/>cancel
       </button>
-      <div id="score-list"></div>
+      <div id="score-list1"></div>
     </div>
   </div>
 </template>
@@ -23,10 +22,10 @@ export default {
     var add_score_view = (title, scoreText) => {
       const id_str = "history" + this.record_num.toString();
       this.record_num++;
-      document.getElementById("room-textarea").innerHTML +=
+      document.getElementById("room-textarea1").innerHTML +=
         '<textarea id="' + id_str + '" class="dummy-textarea"></textarea>';
       document.getElementById(id_str).innerHTML = scoreText;
-      document.getElementById("score-list").innerHTML +=
+      document.getElementById("score-list1").innerHTML +=
         '<div class="mini-container"><div class="history-element"><div class="history-title">' +
         title +
         '</div><div class="container"><div id="paper-' +
@@ -54,8 +53,8 @@ export default {
     };
     var add_score_view_list = scores => {
       this.record_num = 1;
-      document.getElementById("room-textarea").innerHTML = "";
-      document.getElementById("score-list").innerHTML = "";
+      document.getElementById("room-textarea1").innerHTML = "";
+      document.getElementById("score-list1").innerHTML = "";
       scores.forEach(function(value) {
         add_score_view(value[0], value[1]);
       });
@@ -77,14 +76,14 @@ export default {
     this.ws.onclose = function(event) {
       console.log("close:", event.code, event.reason);
       this.close_msg = "WebSocket is not working.";
-      document.getElementById("room-textarea").innerHTML = "";
-      document.getElementById("score-list").innerHTML = this.close_msg;
+      document.getElementById("room-textarea1").innerHTML = "";
+      document.getElementById("score-list1").innerHTML = this.close_msg;
     };
     this.ws.onclose = function(event) {
       console.log("error:", event.error);
       this.close_msg = "WebSocket is not working.";
-      document.getElementById("room-textarea").innerHTML = "";
-      document.getElementById("score-list").innerHTML = this.close_msg;
+      document.getElementById("room-textarea1").innerHTML = "";
+      document.getElementById("score-list1").innerHTML = this.close_msg;
     };
   },
   name: "AppBaseChat",
@@ -141,9 +140,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
-.dummy-textarea {
-  display: none;
-}
 .mini-container {
   margin: 0.1%;
   display: inline-block;

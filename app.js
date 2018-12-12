@@ -65,19 +65,33 @@ wss.on('connection', function (ws, req) {
             var date = new Date();
             var date_info = [date.getFullYear(), date.getMonth() + 1, date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds(), date.getMilliseconds()];
             var dir_str = "data/" + date_info.join("_");
-            console.log("Write the communication log at ", dir_str);
+            console.log("Write the communication log at", "\"" + dir_str + "\"");
             fs.mkdirSync(dir_str);
             messages.forEach((m, i) => {
                 if (i % 2 === 0) {
-                    fs.writeFileSync(dir_str + '/log_ask' + ((i + 2) / 2).toString() + '.abc', JSON.stringify(m[1]));
+                    fs.writeFileSync(dir_str + '/log_ask' + ((i + 2) / 2).toString() + '.abc', m[1]);
                 } else {
-                    fs.writeFileSync(dir_str + '/log_res' + ((i + 1) / 2).toString() + '.abc', JSON.stringify(m[1]));
+                    fs.writeFileSync(dir_str + '/log_res' + ((i + 1) / 2).toString() + '.abc', m[1]);
                 }
             });
         } else if (message === "_load") {
             glob('./reference_data/*.abc', (_, files) => {
+                files.sort((a, b) => {
+                    return Number(a.match(/\d+/)) - Number(b.match(/\d+/));
+                });
                 console.log(files);
-                broadcast("_ref" + JSON.stringify(files.map((file) => fs.readFileSync(file, 'utf-8'))));
+                broadcast("_ref" + JSON.stringify(files.map((file) => {
+                    var ask_f = false;
+                    if (file.search("ask") > 0) {
+                        ask_f = true;
+                    }
+                    var i = file.slice(file.search(/ask|res/) + 3, file.search(".abc"));
+                    if (ask_f) {
+                        return ["ask" + (i).toString(), fs.readFileSync(file, 'utf-8')];
+                    } else {
+                        return ["response" + (i).toString(), fs.readFileSync(file, 'utf-8')];
+                    }
+                })));
             });
         } else if (asker != sender) {
             var str = "";

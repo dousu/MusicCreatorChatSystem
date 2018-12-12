@@ -30,12 +30,13 @@ wss.on('connection', function (ws, req) {
     });
     ws.on('message', function (message) {
         const sender = ws._socket._peername.address + ":" + ws._socket._peername.port;
-        console.log(sender);
+        console.log('from:', sender);
         // console.log('from:', req.connection.remoteAddress, req.connection.remotePort);
         if (message === "") {
+            console.log('request reloading');
             broadcast(JSON.stringify(messages));
         } else if (message === "_cancel") {
-            //look for the last message from sender
+            console.log('cancel the previous message');
             var loc = messages.length;
             for (var i = messages.length - 1; i >= 0; i--) {
                 if (messages[i][2] === sender) {
@@ -43,6 +44,9 @@ wss.on('connection', function (ws, req) {
                     break;
                 }
             }
+
+            console.log('target:', messages[loc], 'number of messages:', messages.length - loc);
+
             messages = messages.slice(0, loc);
             if (messages.length != 0) {
                 if (messages[messages.length - 1][0].includes("ask")) {
@@ -75,6 +79,7 @@ wss.on('connection', function (ws, req) {
                 }
             });
         } else if (message === "_load") {
+            console.log('load from reference_data/');
             glob('./reference_data/*.abc', (_, files) => {
                 files.sort((a, b) => {
                     return Number(a.match(/\d+/)) - Number(b.match(/\d+/));
@@ -94,6 +99,7 @@ wss.on('connection', function (ws, req) {
                 })));
             });
         } else if (asker != sender) {
+            console.log('receive a message');
             var str = "";
             if (!state) {
                 str = "ask";
@@ -107,7 +113,7 @@ wss.on('connection', function (ws, req) {
             }
             var title = str + " " + counter.toString();
             messages.push([title, message, sender]);
-            console.log('message:', JSON.stringify([title, message, sender]));
+            console.log('title:', title, 'message:', message);
             broadcast(JSON.stringify(messages));
         }
     });

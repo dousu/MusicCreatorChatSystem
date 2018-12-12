@@ -32,8 +32,12 @@
     <button v-on:click="log_base" class="button_comp">
       <font-awesome-icon icon="check"/>logging
     </button>
+    <br>
+    <br>
+    <div class="score-title">Reference</div>
+    <br>
     <button v-on:click="load_base" class="button_comp">
-      <font-awesome-icon icon="comments"/>load references
+      <font-awesome-icon icon="comments"/>load reference
     </button>
     <div id="score-list2"></div>
   </div>

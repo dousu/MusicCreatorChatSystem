@@ -23,7 +23,7 @@
       <app-base-creation v-on:update-creation="updateCreation" v-bind:edit-phrase="phrase"/>
     </div>
 
-    <div class="frame-container">
+    <!-- <div class="frame-container">
       <app-base-chat
         v-on:update-reference="updateReference"
         v-bind:send-creation="creation"
@@ -41,19 +41,9 @@
     <button v-on:click="load_base" class="button_comp">
       <font-awesome-icon icon="comments"/>load reference
     </button>
-    <div id="score-list2"></div>
-
-    <!-- <div class="frame-container">
-      <button v-on:click="log_base" class="button_comp">
-        <font-awesome-icon icon="check"/>logging
-      </button>
-      <br>
-      <br>
+    <div id="score-list2"></div>-->
+    <div class="frame-container">
       <div class="score-title">Reference</div>
-      <br>
-      <button v-on:click="load_base" class="button_comp">
-        <font-awesome-icon icon="comments"/>load reference
-      </button>
       <div id="score-list2"></div>
     </div>
     <div class="dummy">
@@ -62,7 +52,7 @@
         v-bind:send-creation="creation"
         ref="chat"
       />
-    </div>-->
+    </div>
   </div>
 </template>
 
@@ -183,12 +173,6 @@ export default {
     updateReference(el) {
       // console.log(el);
       this.reference = el;
-    },
-    log_base() {
-      this.$refs.chat.log_chat();
-    },
-    load_base() {
-      this.$refs.chat.load_chat();
     }
   }
 };
@@ -269,11 +253,11 @@ export default {
   display: none;
 }
 .reference-container {
-  margin: 0.1%;
-  display: inline-block;
   border: solid 1px #000000;
-  width: 49%;
-  height: 285px;
+  width: auto;
+  height: auto;
+  margin: 2mm;
   overflow: auto;
+  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.4);
 }
 </style>

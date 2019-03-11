@@ -127,9 +127,6 @@ export default {
       //this.message_value
       this.ws.send("_cancel");
     },
-    log_chat() {
-      this.ws.send("_log");
-    },
     load_chat() {
       this.ws.send("_load");
     }

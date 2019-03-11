@@ -22,6 +22,7 @@
     <div class="frame-container">
       <app-base-creation v-on:update-creation="updateCreation" v-bind:edit-phrase="phrase"/>
     </div>
+
     <div class="frame-container">
       <app-base-chat
         v-on:update-reference="updateReference"
@@ -29,6 +30,7 @@
         ref="chat"
       />
     </div>
+
     <button v-on:click="log_base" class="button_comp">
       <font-awesome-icon icon="check"/>logging
     </button>
@@ -40,6 +42,27 @@
       <font-awesome-icon icon="comments"/>load reference
     </button>
     <div id="score-list2"></div>
+
+    <!-- <div class="frame-container">
+      <button v-on:click="log_base" class="button_comp">
+        <font-awesome-icon icon="check"/>logging
+      </button>
+      <br>
+      <br>
+      <div class="score-title">Reference</div>
+      <br>
+      <button v-on:click="load_base" class="button_comp">
+        <font-awesome-icon icon="comments"/>load reference
+      </button>
+      <div id="score-list2"></div>
+    </div>
+    <div class="dummy">
+      <app-base-chat
+        v-on:update-reference="updateReference"
+        v-bind:send-creation="creation"
+        ref="chat"
+      />
+    </div>-->
   </div>
 </template>
 
@@ -228,6 +251,9 @@ export default {
   padding: 6px;
   display: none;
 }
+.dummy {
+  display: none;
+}
 .frame-container {
   display: inline-block;
   width: 49.5%;
@@ -249,6 +275,5 @@ export default {
   width: 49%;
   height: 285px;
   overflow: auto;
-  float: left;
 }
 </style>

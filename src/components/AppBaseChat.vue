@@ -147,7 +147,6 @@ export default {
   width: 49%;
   height: 170px;
   overflow: auto;
-  float: left;
 }
 #history {
   margin: 1%;

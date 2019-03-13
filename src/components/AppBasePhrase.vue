@@ -147,17 +147,17 @@ export default {
         return d.slice(0, d.search(/[\n\]]/));
       }
       let res = new Map();
-      const data_slice = abcdata.slice(0, start);
-      const mes_slice = data_slice.slice(data_slice.lastIndexOf("M:"));
-      res.set("M", setting(mes_slice));
-      const len_slice = data_slice.slice(data_slice.lastIndexOf("L:"));
-      res.set("L", setting(len_slice));
-      const tempo_slice = data_slice.slice(data_slice.lastIndexOf("Q:"));
-      res.set("Q", setting(tempo_slice));
-      const chord_slice = data_slice.slice(data_slice.lastIndexOf("K:"));
-      res.set("K", setting(chord_slice));
-      const title_slice = data_slice.slice(data_slice.lastIndexOf("T:"));
-      res.set("T", setting(title_slice));
+      const data_sliced = abcdata.slice(0, start);
+      const mes_sliced = data_sliced.slice(data_sliced.lastIndexOf("M:"));
+      res.set("M", setting(mes_sliced));
+      const len_sliced = data_sliced.slice(data_sliced.lastIndexOf("L:"));
+      res.set("L", setting(len_sliced));
+      const tempo_sliced = data_sliced.slice(data_sliced.lastIndexOf("Q:"));
+      res.set("Q", setting(tempo_sliced));
+      const chord_sliced = data_sliced.slice(data_sliced.lastIndexOf("K:"));
+      res.set("K", setting(chord_sliced));
+      const title_sliced = data_sliced.slice(data_sliced.lastIndexOf("T:"));
+      res.set("T", setting(title_sliced));
       return res;
     },
     phrase_set_info(targ, dest) {
@@ -186,13 +186,23 @@ export default {
       this.lastscore = "";
     },
     async regist_phrase() {
-      this.soundAdd();
-      if (document.getElementById("abc-phrase").value !== this.tune) {
+      const data_sliced = document.getElementById("abc-phrase").value;
+      const chord_sliced = data_sliced.slice(data_sliced.lastIndexOf("K:"));
+      const x = chord_sliced
+        .slice(chord_sliced.search(/[\n]/), chord_sliced.length)
+        .match(/[A-Za-z]/g);
+      if (
+        document.getElementById("abc-phrase").value !== this.tune &&
+        x.length > 1
+      ) {
+        this.soundAdd();
         this.$emit(
           "update-phrase",
           document.getElementById("abc-phrase").value
         );
         this.clear_phrase();
+      } else {
+        this.soundFailed();
       }
     },
     listener(midiControl, progress) {

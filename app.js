@@ -34,6 +34,7 @@ wss.on('connection', function (ws, req) {
     if (messages.length > 0)
         ws.send("_ref" + JSON.stringify(new Array(messages[messages.length - 1])));
     ws.on('message', function (message) {
+        gen = messages.length + 1;
         const sender = ws._socket._peername.address + ":" + ws._socket._peername.port;
         console.log('from:', sender);
         console.log('receive a message');

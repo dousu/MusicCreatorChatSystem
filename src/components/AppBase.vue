@@ -43,8 +43,10 @@
     </button>
     <div id="score-list2"></div>-->
     <div class="frame-container">
-      <div class="score-title">Reference</div>
-      <div id="score-list2"></div>
+      <div style="margin: 1%">
+        <div class="score-title">Theme</div>
+        <div id="score-list2"></div>
+      </div>
     </div>
     <div class="dummy">
       <app-base-chat
@@ -259,5 +261,16 @@ export default {
   margin: 2mm;
   overflow: auto;
   box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.4);
+}
+#history {
+  margin: 1%;
+}
+.history-element {
+  margin: 1%;
+}
+.history-title {
+  /* margin-top: 2.2%; */
+  font-size: x-large;
+  font-weight: bold;
 }
 </style>

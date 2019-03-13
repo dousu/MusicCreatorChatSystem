@@ -145,17 +145,6 @@ export default {
   height: 170px;
   overflow: auto;
 }
-#history {
-  margin: 1%;
-}
-.history-element {
-  margin: 1%;
-}
-.history-title {
-  margin-top: 2.2%;
-  font-size: 90%;
-  font-weight: bold;
-}
 #button_reload {
   width: 100%;
   font-size: 150%;
